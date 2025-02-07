@@ -1,1 +1,43 @@
+name: Build and Deploy to GCP
+on:
+  push:
+    branches:
+    - main
 
+env:
+  REPOSITORY_NAME: challenge-shipay-devops
+
+jobs:
+  build-and-push-gcp:
+    name: Build and publish Docker image to Google Cloud
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v4.3.0
+      with:
+        images: ${{ secrets.GCP_ARTIFACT_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}/${{ env.REPOSITORY_NAME }}
+        tags: |
+          type=sha,enable=true,prefix=shipay-,suffix=,format=short
+
+    - name: Build image and push Google Cloud
+      uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
+      with:
+        registry: ${{ secrets.GCP_ARTIFACT_REGISTRY }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}
+        image_name: ${{ env.REPOSITORY_NAME }}
+        image_tag: ${{ steps.meta.outputs.version }}
+        context: ./devops/garapua/base-test-api
