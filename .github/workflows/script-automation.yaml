@@ -17,5 +17,11 @@ jobs:
     - name: permission add script with run
       run: chmod +x .github/script/automation.sh
 
+    - name: Listar arquivos antes da movimentação
+      run: ls -l /garapua/ARQUIVOS/
+
     - name: execute script in workflow
       run: .github/script/automation.sh
+
+    - name: Listar arquivos depois da movimentação
+      run: ls -l /garapua/ARQUIVOS_PROCESSADOS/

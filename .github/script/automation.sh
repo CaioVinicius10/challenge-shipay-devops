@@ -1,7 +1,7 @@
 #!/bin/bash
 
-origem="/garapua/ARQUIVOS"
-destino="/garapua/ARQUIVOS_PROCESSADOS"
+origem="/garapua/ARQUIVOS/"
+destino="/garapua/ARQUIVOS_PROCESSADOS/"
 
 # Move e renomeia os arquivos
 for arquivo in "$origem"/*; do
