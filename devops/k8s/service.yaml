@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipay-challenge-devops
+  namespace: shipay
+  labels:
+    app: shipay-challenge-devops
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: shipay-challenge-devops
+  type: ClusterIP

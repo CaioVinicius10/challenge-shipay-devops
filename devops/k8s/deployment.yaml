@@ -1,0 +1,31 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    environment: shipay
+  name: shipay-challenge-devops
+  namespace: shipay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipay-challenge-devops
+  template:
+    metadata:
+      labels:
+        app: shipay-challenge-devops
+    spec:
+      containers:
+      - name: shipay-challenge
+        imagePullPolicy: Always
+        image: us-central1-docker.pkg.dev/praxis-gear-450219-a3/ar-shipay/challenge-shipay-devops:shipay-3d12354
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "128m"
+          requests:
+            memory: "128Mi"
+            cpu: "64m"
+        ports:
+        - name: liveness-port
+          containerPort: 8080

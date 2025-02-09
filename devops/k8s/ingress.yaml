@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shipay-challenge-devops
+  namespace: shipay
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: shipay-letsencrypt
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: challenge-devops.shipay.app.br
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: shipay-challenge-devops
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - challenge-devops.shipay.app.br
+    secretName: devops-challenge
