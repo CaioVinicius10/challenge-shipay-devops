@@ -1,1 +1,21 @@
+name: Move and Rename Files
 
+on:
+  schedule:
+  - cron: "0 3 * * *"
+  workflow_dispatch:
+
+
+jobs:
+  move_files:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do repositório
+      uses: actions/checkout@v4
+
+    - name: permission add script with run
+      run: chmod +x .github/script/automation.sh
+
+    - name: execute script in workflow
+      run: .github/script/automation.sh
