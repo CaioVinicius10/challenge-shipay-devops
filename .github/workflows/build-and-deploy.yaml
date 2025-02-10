@@ -44,7 +44,7 @@ jobs:
         registry: ${{ secrets.GCP_ARTIFACT_REGISTRY }}
         project_id: ${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}
         image_name: ${{ env.REPOSITORY_NAME }}
-        image_tag: ${{ steps.meta.outputs.version }}
+        image_tag: ${{ steps.meta.outputs.tags }}
         context: ./devops/garapua/base-test-api
 
   deploy:
@@ -69,5 +69,5 @@ jobs:
     - name: Deploy to GKE
       run: |
         kubectl set image deployment/shipay-challenge-devops \
-          shipay-challenge-devops=${{ secrets.GCP_ARTIFACT_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}/shipay-challenge-devops:${{ steps.meta.outputs.version }} \
+          shipay-challenge-devops=${{ secrets.GCP_ARTIFACT_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}/shipay-challenge-devops:${{ steps.meta.outputs.tags }} \
           -n shipay
