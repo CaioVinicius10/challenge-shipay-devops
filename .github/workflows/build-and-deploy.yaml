@@ -54,8 +54,8 @@ jobs:
     - name: Get GKE credentials
       uses: google-github-actions/get-gke-credentials@v2
       with:
-        cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
-        location: ${{ secrets.GKE_CLUSTER_LOCATION }}
+        cluster_name: "shipay-challenge"
+        location: "us-central1"
 
     - name: Deploy to GKE
       run: |
