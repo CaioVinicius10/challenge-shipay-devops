@@ -4,6 +4,7 @@ origem="devops/garapua/ARQUIVOS"
 destino="devops/garapua/ARQUIVOS_PROCESSADOS"
 
 mkdir -p "$destino"
+ls -ld "$destino"
 
 # Move e renomeia os arquivos
 for arquivo in "$origem"/*; do
