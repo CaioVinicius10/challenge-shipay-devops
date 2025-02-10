@@ -70,7 +70,7 @@ jobs:
         location: ${{env.GCP_ZONE}}
 
     - name: Debug Image Tag
-      run: echo "A tag usada no deploy é: $IMAGE_TAG"
+      run: echo "A tag usada no deploy é $IMAGE_TAG"
 
     - name: Deploy to GKE
       run: |
