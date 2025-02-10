@@ -14,7 +14,7 @@ env:
 
 jobs:
   build-and-push-gcp:
-    name: Build and publish Docker image to Google Cloud
+    name: Build and deploy to GKE K8S
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -47,9 +47,6 @@ jobs:
         image_tag: ${{ steps.meta.outputs.version }}
         context: ./devops/garapua/base-test-api
 
-    - name: Save Image Tag
-      run: echo "IMAGE_TAG=${{ steps.meta.outputs.version }}" >> $GITHUB_ENV
-
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
       with:
@@ -63,9 +60,6 @@ jobs:
       with:
         cluster_name: ${{env.GCP_CLUSTER_NAME}}
         location: ${{env.GCP_ZONE}}
-
-    - name: Debug Image Tag
-      run: echo "A tag usada no deploy é $IMAGE_TAG"
 
     - name: Deploy to GKE
       run: |
