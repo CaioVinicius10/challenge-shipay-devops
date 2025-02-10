@@ -5,9 +5,9 @@
     1.1 Bônus - Foi realizado o build no Github Actions e como eu já estava utilizando a cloud do GCP, eu armazenei a imagem no artifact registry do Google, tambem criei os arquivos de deployment, presente na pasta /devops/k8s,
     para deployar essa imagem no cluster no GCP, vamos rodar os seguintes comandos:
 
-    gcloud auth login
-    gcloud container clusters get-credentials CLUSTER-NAME --region REGION --project PROJECT-ID
-    kubectl apply -f deployment.yaml
+        gcloud auth login
+        gcloud container clusters get-credentials CLUSTER-NAME --region REGION --project PROJECT-ID
+        kubectl apply -f deployment.yaml
 
 
 2. Sobre o diagrama criado, eu criei uma VPC, ambos ambientes compartilhando a mesma VPC, porem para não ter comunicação vamos criar 2 regras de firewall, na VPC criada:
