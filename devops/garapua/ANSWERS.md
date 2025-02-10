@@ -35,7 +35,7 @@ BÔNUS: O Cluster foi criado no GKE, serviço do GCP e no pipeline configurei o 
     helm repo add jetstack https://charts.jetstack.io
     kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.crds.yaml
     helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.12.0
-     helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-     helm install ingress-controller ingress-nginx/ingress-nginx -n cert-manager
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    helm install ingress-controller ingress-nginx/ingress-nginx -n cert-manager
 
 Vou adicionar umas imagens para um melhor entendimento sobre todos os processos realizados no teste, qualquer duvida fico a disposição.
