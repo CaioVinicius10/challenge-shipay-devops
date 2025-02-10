@@ -69,6 +69,9 @@ jobs:
         cluster_name: ${{env.GCP_CLUSTER_NAME}}
         location: ${{env.GCP_ZONE}}
 
+    - name: Debug Image Tag
+      run: echo "A tag usada no deploy é: $IMAGE_TAG"
+
     - name: Deploy to GKE
       run: |
         kubectl set image deployment/shipay-challenge-devops \
