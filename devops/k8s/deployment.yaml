@@ -16,7 +16,7 @@ spec:
         app: shipay-challenge-devops
     spec:
       containers:
-      - name: shipay-challenge
+      - name: shipay-challenge-devops
         imagePullPolicy: Always
         image: us-central1-docker.pkg.dev/praxis-gear-450219-a3/ar-shipay/challenge-shipay-devops:shipay-3d12354
         resources:

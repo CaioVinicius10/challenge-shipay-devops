@@ -5,6 +5,12 @@ on:
 
 env:
   REPOSITORY_NAME: challenge-shipay-devops
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GCP_ZONE: ${{secrets.GCP_ZONE}}
+  GCP_CLUSTER_NAME: ${{secrets.GCP_CLUSTER_NAME}}
+  DEPLOYMENT_NAME: shipay-challenge-devops
+  CONTAINER_NAME: shipay-challenge-devops
+  NAMESPACE: shipay
 
 jobs:
   build-and-push-gcp:
@@ -51,11 +57,14 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+    - name: Update kube config
+      run: gcloud container clusters get-credentials ${{env.GCP_CLUSTER_NAME}} --zone ${{env.GCP_ZONE}} --project ${{env.GCP_PROJECT_ID}}
+
     - name: Get GKE credentials
       uses: google-github-actions/get-gke-credentials@v2
       with:
-        cluster_name: "shipay-challenge"
-        location: "us-central1"
+        cluster_name: ${{env.GCP_CLUSTER_NAME}}
+        location: ${{env.GCP_ZONE}}
 
     - name: Deploy to GKE
       run: |
