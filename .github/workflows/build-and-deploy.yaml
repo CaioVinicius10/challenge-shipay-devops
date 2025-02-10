@@ -37,6 +37,7 @@ jobs:
         images: ${{ secrets.GCP_ARTIFACT_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}/${{ env.REPOSITORY_NAME }}
         tags: |
           type=sha,enable=true,prefix=shipay-,suffix=,format=short
+          type=raw,value=latest
 
     - name: Build image and push Google Cloud
       uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
@@ -44,8 +45,11 @@ jobs:
         registry: ${{ secrets.GCP_ARTIFACT_REGISTRY }}
         project_id: ${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}
         image_name: ${{ env.REPOSITORY_NAME }}
-        image_tag: ${{ steps.meta.outputs.tags }}
+        image_tag: ${{ steps.meta.outputs.version }}
         context: ./devops/garapua/base-test-api
+
+    - name: Save Image Tag
+      run: echo "IMAGE_TAG=${{ steps.meta.outputs.version }}" >> $GITHUB_ENV
 
   deploy:
     name: Deploy to GKE
@@ -69,5 +73,5 @@ jobs:
     - name: Deploy to GKE
       run: |
         kubectl set image deployment/shipay-challenge-devops \
-          shipay-challenge-devops=${{ secrets.GCP_ARTIFACT_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}/shipay-challenge-devops:${{ steps.meta.outputs.tags }} \
+          shipay-challenge-devops=${{ secrets.GCP_ARTIFACT_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}/shipay-challenge-devops:${{ env.IMAGE_TAG }} \
           -n shipay
