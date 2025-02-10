@@ -47,6 +47,9 @@ jobs:
         image_tag: ${{ steps.meta.outputs.version }}
         context: ./devops/garapua/base-test-api
 
+    - name: Save Image Tag
+      run: echo "IMAGE_TAG=${{ steps.meta.outputs.version }}" >> $GITHUB_ENV
+
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
       with:
