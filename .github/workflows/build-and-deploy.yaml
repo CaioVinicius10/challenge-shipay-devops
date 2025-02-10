@@ -72,5 +72,5 @@ jobs:
     - name: Deploy to GKE
       run: |
         kubectl set image deployment/shipay-challenge-devops \
-          shipay-challenge-devops=${{ secrets.GCP_ARTIFACT_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}/challenge-shipay-devops:${{ steps.meta.outputs.version }} \
+          shipay-challenge-devops=${{ secrets.GCP_ARTIFACT_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REPOSITORY }}/challenge-shipay-devops:$IMAGE_TAG \
           -n shipay
