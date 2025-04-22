@@ -22,14 +22,23 @@ jobs:
         run: |
           semgrep --config=auto --output=semgrep-report.json
 
-      # Passo 4: Upload do relatório gerado
+      # Passo 4: Limpar o cache do pip (opcional, mas pode ajudar em alguns casos)
+      - name: Clear cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      # Passo 5: Upload do relatório gerado
       - name: Upload Semgrep Report
         uses: actions/upload-artifact@v2
         with:
           name: semgrep-report
           path: semgrep-report.json
 
-      # Passo 5: Verificar falhas se encontradas
+      # Passo 6: Verificar falhas se encontradas
       - name: Fail if vulnerabilities found
         if: failure()
         run: |
