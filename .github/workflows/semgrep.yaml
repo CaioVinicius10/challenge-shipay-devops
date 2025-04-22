@@ -1,0 +1,37 @@
+name: Semgrep SAST
+
+on:
+  workflow_dispatch:
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: Checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Passo 2: Instalar o Semgrep
+      - name: Install Semgrep
+        run: |
+          pip install semgrep
+
+      # Passo 3: Rodar a análise Semgrep
+      - name: Run Semgrep SAST
+        run: |
+          semgrep --config=auto --output=semgrep-report.json
+
+      # Passo 4: Upload do relatório gerado
+      - name: Upload Semgrep Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: semgrep-report
+          path: semgrep-report.json
+
+      # Passo 5: Verificar falhas se encontradas
+      - name: Fail if vulnerabilities found
+        if: failure()
+        run: |
+          echo "Semgrep found vulnerabilities. Check the report for details."
+          exit 1
