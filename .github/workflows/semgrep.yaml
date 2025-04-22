@@ -1,12 +1,7 @@
 name: Bandit SAST
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   bandit:
@@ -37,14 +32,14 @@ jobs:
       # Passo 5: Rodar a análise Bandit
       - name: Run Bandit SAST
         run: |
-          bandit -r . -o bandit-report.json -f json  # Rodando a análise no diretório atual
+          bandit -r . -o devops/garapua/base-test-api/base_test_api/bandit-report.json -f json  # Gera o relatório nesse diretório
 
       # Passo 6: Upload do relatório gerado
       - name: Upload Bandit Report
         uses: actions/upload-artifact@v2
         with:
           name: bandit-report
-          path: bandit-report.json
+          path: devops/garapua/base-test-api/base_test_api/bandit-report.json  # Ajuste o caminho
 
       # Passo 7: Verificar falhas se vulnerabilidades forem encontradas
       - name: Fail if vulnerabilities found
