@@ -24,7 +24,7 @@ jobs:
 
       # Passo 4: Upload do relatório gerado
       - name: Upload Semgrep Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: semgrep-report
           path: semgrep-report.json
