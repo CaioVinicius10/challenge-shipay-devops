@@ -34,16 +34,16 @@ jobs:
         run: |
           bandit -r . -o devops/garapua/base-test-api/base_test_api/bandit-report.json -f json  # Gera o relatório nesse diretório
 
-      # Passo 6: Upload do relatório gerado
-      - name: Upload Bandit Report
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: bandit-report
-          path: devops/garapua/base-test-api/base_test_api/bandit-report.json  # Ajuste o caminho
+      # # Passo 6: Upload do relatório gerado
+      # - name: Upload Bandit Report
+      #   uses: actions/upload-artifact@v2.2.4
+      #   with:
+      #     name: bandit-report
+      #     path: devops/garapua/base-test-api/base_test_api/bandit-report.json  # Ajuste o caminho
 
-      # Passo 7: Verificar falhas se vulnerabilidades forem encontradas
-      - name: Fail if vulnerabilities found
-        if: failure()
-        run: |
-          echo "Bandit found vulnerabilities. Check the report for details."
-          exit 1
+      # # Passo 7: Verificar falhas se vulnerabilidades forem encontradas
+      # - name: Fail if vulnerabilities found
+      #   if: failure()
+      #   run: |
+      #     echo "Bandit found vulnerabilities. Check the report for details."
+      #     exit 1
