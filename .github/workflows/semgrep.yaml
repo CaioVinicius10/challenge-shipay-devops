@@ -36,7 +36,7 @@ jobs:
 
       # Passo 6: Upload do relatório gerado
       - name: Upload Bandit Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: bandit-report
           path: devops/garapua/base-test-api/base_test_api/bandit-report.json  # Ajuste o caminho
