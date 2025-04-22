@@ -1,10 +1,15 @@
-name: Semgrep SAST
+name: Bandit SAST
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  semgrep:
+  bandit:
     runs-on: ubuntu-latest
 
     steps:
@@ -12,35 +17,38 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Passo 2: Instalar o Semgrep
-      - name: Install Semgrep
-        run: |
-          pip install semgrep
-
-      # Passo 3: Rodar a análise Semgrep
-      - name: Run Semgrep SAST
-        run: |
-          semgrep --config=auto --output=semgrep-report.json
-
-      # Passo 4: Limpar o cache do pip (opcional, mas pode ajudar em alguns casos)
-      - name: Clear cache
-        uses: actions/cache@v2
+      # Passo 2: Configurar o ambiente Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-build-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-build-
+          python-version: '3.x'  # Altere para a versão desejada do Python
 
-      # Passo 5: Upload do relatório gerado
-      - name: Upload Semgrep Report
+      # Passo 3: Instalar dependências do projeto
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Se você tiver um arquivo de dependências
+
+      # Passo 4: Instalar o Bandit
+      - name: Install Bandit
+        run: |
+          pip install bandit
+
+      # Passo 5: Rodar a análise Bandit
+      - name: Run Bandit SAST
+        run: |
+          bandit -r . -o bandit-report.json -f json  # Rodando a análise no diretório atual
+
+      # Passo 6: Upload do relatório gerado
+      - name: Upload Bandit Report
         uses: actions/upload-artifact@v2
         with:
-          name: semgrep-report
-          path: semgrep-report.json
+          name: bandit-report
+          path: bandit-report.json
 
-      # Passo 6: Verificar falhas se encontradas
+      # Passo 7: Verificar falhas se vulnerabilidades forem encontradas
       - name: Fail if vulnerabilities found
         if: failure()
         run: |
-          echo "Semgrep found vulnerabilities. Check the report for details."
+          echo "Bandit found vulnerabilities. Check the report for details."
           exit 1
