@@ -1,0 +1,23 @@
+name: Horusec SAST
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  horusec-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instalar o Horusec
+        run: |
+          curl -fsSL https://horusec.io/bin/install.sh | bash
+
+      - name: Rodar Horusec SAST
+        run: |
+          horusec start -p ./ --config-file-path="./horusec-config.json" --log-level=info --information-severity=true
