@@ -11,9 +11,11 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Instalar o Horusec
+      - name: Instalar Horusec
         run: |
-          curl -fsSL https://horusec.io/bin/install.sh | bash
+          curl -sSfL https://github.com/ZupIT/horusec/releases/latest/download/horusec_linux_amd64 -o horusec
+          chmod +x horusec
+          sudo mv horusec /usr/local/bin/horusec
 
       - name: Rodar Horusec SAST
         run: |
