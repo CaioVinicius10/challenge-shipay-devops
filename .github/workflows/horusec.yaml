@@ -19,4 +19,4 @@ jobs:
 
       - name: Rodar Horusec SAST
         run: |
-          horusec start
+          horusec start -p ./ --disable-docker --log-level=info --information-severity=true
