@@ -19,4 +19,4 @@ jobs:
 
       - name: Rodar Horusec SAST
         run: |
-          horusec start -p ./ --config-file-path="./horusec-config.json" --log-level=info --information-severity=true
+          horusec start
